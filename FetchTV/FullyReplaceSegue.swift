@@ -12,12 +12,12 @@ class FullyReplaceSegue: UIStoryboardSegue {
 
     override func perform() {
         
-        if let presenting = sourceViewController.presentingViewController {
-            presenting.dismissViewControllerAnimated(true) {
-                UIApplication.sharedApplication().keyWindow?.rootViewController = self.destinationViewController
+        if let presenting = source.presentingViewController {
+            presenting.dismiss(animated: true) {
+                UIApplication.shared.keyWindow?.rootViewController = self.destination
             }
         } else {
-            UIApplication.sharedApplication().keyWindow?.rootViewController = self.destinationViewController
+            UIApplication.shared.keyWindow?.rootViewController = self.destination
         }
         
         

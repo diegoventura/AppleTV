@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		176BB5A0BACAD98FEEE5D7E6 /* Pods_FetchTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 076EAE09AFC72CF946A8EE5D /* Pods_FetchTV.framework */; };
 		2801BE451BC81037008BE9FD /* LoginParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2801BE441BC81037008BE9FD /* LoginParentViewController.swift */; };
 		2807331B1BA975590089E6B1 /* UIView+CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807331A1BA975590089E6B1 /* UIView+CornerRadius.swift */; };
 		281AAB421BF949D8000FE063 /* FocusableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281AAB411BF949D8000FE063 /* FocusableText.swift */; };
@@ -65,8 +66,7 @@
 		28DA1AD41BC808070075DEB8 /* LoginListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DA1AD31BC808070075DEB8 /* LoginListener.swift */; };
 		28E0B01D1BCD6EE7006886D8 /* TVSeason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E0B01C1BCD6EE7006886D8 /* TVSeason.swift */; };
 		28E0B0241BCD80FE006886D8 /* TVShowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E0B0231BCD80FE006886D8 /* TVShowDelegate.swift */; };
-		2ACAB73ECB906A13A8B31959 /* Pods_FetchTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA227566535FA0B493AF391 /* Pods_FetchTV.framework */; };
-		A06847FAFAD65C2385ABD401 /* Pods_PutioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAF48AE9C330FF4A07E1988E /* Pods_PutioKit.framework */; };
+		4ECA71AE7E8B81274CFA80CE /* Pods_PutioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79FEF74B3DF5BEFE9D2E51F2 /* Pods_PutioKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,7 +113,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1E5EDB50BF3EBC364B8D502F /* Pods-PutioKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PutioKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-PutioKit/Pods-PutioKit.release.xcconfig"; sourceTree = "<group>"; };
+		013EA91C7796BC40A21798F4 /* Pods-PutioKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PutioKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PutioKit/Pods-PutioKit.debug.xcconfig"; sourceTree = "<group>"; };
+		076EAE09AFC72CF946A8EE5D /* Pods_FetchTV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FetchTV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2801BE441BC81037008BE9FD /* LoginParentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginParentViewController.swift; sourceTree = "<group>"; };
 		2807331A1BA975590089E6B1 /* UIView+CornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+CornerRadius.swift"; sourceTree = "<group>"; };
 		28145FBA1BA310C900E35415 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -186,11 +187,10 @@
 		28DA1AD31BC808070075DEB8 /* LoginListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginListener.swift; sourceTree = "<group>"; };
 		28E0B01C1BCD6EE7006886D8 /* TVSeason.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVSeason.swift; sourceTree = "<group>"; };
 		28E0B0231BCD80FE006886D8 /* TVShowDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVShowDelegate.swift; sourceTree = "<group>"; };
-		3185D2BAC64C4DD7FF137CB1 /* Pods-FetchTV.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FetchTV.release.xcconfig"; path = "Pods/Target Support Files/Pods-FetchTV/Pods-FetchTV.release.xcconfig"; sourceTree = "<group>"; };
-		630A771A5863D3773117BBB0 /* Pods-FetchTV.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FetchTV.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FetchTV/Pods-FetchTV.debug.xcconfig"; sourceTree = "<group>"; };
-		A21F8BE94D16EB1AEAFD478D /* Pods-PutioKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PutioKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PutioKit/Pods-PutioKit.debug.xcconfig"; sourceTree = "<group>"; };
-		BAF48AE9C330FF4A07E1988E /* Pods_PutioKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PutioKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CBA227566535FA0B493AF391 /* Pods_FetchTV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FetchTV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		79FEF74B3DF5BEFE9D2E51F2 /* Pods_PutioKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PutioKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		945469065516F3407DCBD0C9 /* Pods-PutioKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PutioKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-PutioKit/Pods-PutioKit.release.xcconfig"; sourceTree = "<group>"; };
+		9F08379135C77240F4E2EF52 /* Pods-FetchTV.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FetchTV.release.xcconfig"; path = "Pods/Target Support Files/Pods-FetchTV/Pods-FetchTV.release.xcconfig"; sourceTree = "<group>"; };
+		BB23FCA554E704E007F67A30 /* Pods-FetchTV.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FetchTV.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FetchTV/Pods-FetchTV.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,7 +198,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A06847FAFAD65C2385ABD401 /* Pods_PutioKit.framework in Frameworks */,
+				4ECA71AE7E8B81274CFA80CE /* Pods_PutioKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,7 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2847FE061BC66B8D00D8214C /* PutioKit.framework in Frameworks */,
-				2ACAB73ECB906A13A8B31959 /* Pods_FetchTV.framework in Frameworks */,
+				176BB5A0BACAD98FEEE5D7E6 /* Pods_FetchTV.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +221,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08A2E594B5332C3E8E7F2A3D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BB23FCA554E704E007F67A30 /* Pods-FetchTV.debug.xcconfig */,
+				9F08379135C77240F4E2EF52 /* Pods-FetchTV.release.xcconfig */,
+				013EA91C7796BC40A21798F4 /* Pods-PutioKit.debug.xcconfig */,
+				945469065516F3407DCBD0C9 /* Pods-PutioKit.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		280733191BA9754C0089E6B1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,7 +287,7 @@
 				2896B1621BD2E834001F77A0 /* TopShelf */,
 				285F2E6B1B08EB7000913D3F /* Products */,
 				474CB0972E5220BBB6DE7861 /* Frameworks */,
-				5E0951A352D39266176F1427 /* Pods */,
+				08A2E594B5332C3E8E7F2A3D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -472,21 +483,10 @@
 				28145FC01BA3146A00E35415 /* libicucore.tbd */,
 				28145FBE1BA3140600E35415 /* libz.tbd */,
 				28145FBA1BA310C900E35415 /* AdSupport.framework */,
-				CBA227566535FA0B493AF391 /* Pods_FetchTV.framework */,
-				BAF48AE9C330FF4A07E1988E /* Pods_PutioKit.framework */,
+				076EAE09AFC72CF946A8EE5D /* Pods_FetchTV.framework */,
+				79FEF74B3DF5BEFE9D2E51F2 /* Pods_PutioKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		5E0951A352D39266176F1427 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				630A771A5863D3773117BBB0 /* Pods-FetchTV.debug.xcconfig */,
-				3185D2BAC64C4DD7FF137CB1 /* Pods-FetchTV.release.xcconfig */,
-				A21F8BE94D16EB1AEAFD478D /* Pods-PutioKit.debug.xcconfig */,
-				1E5EDB50BF3EBC364B8D502F /* Pods-PutioKit.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -507,12 +507,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 287F15C91BA31CF700334AD6 /* Build configuration list for PBXNativeTarget "PutioKit" */;
 			buildPhases = (
-				0042E837EB0F5FB64B4FC37E /* [CP] Check Pods Manifest.lock */,
+				66D0819EAEA913C5332F3014 /* [CP] Check Pods Manifest.lock */,
 				287F15B41BA31CF700334AD6 /* Sources */,
 				287F15B51BA31CF700334AD6 /* Frameworks */,
 				287F15B61BA31CF700334AD6 /* Headers */,
 				287F15B71BA31CF700334AD6 /* Resources */,
-				709A59B93B2DD38BECDC9FFB /* [CP] Copy Pods Resources */,
+				94998FB96566D87D0E24DEE4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -527,14 +527,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 287F15E61BA327BE00334AD6 /* Build configuration list for PBXNativeTarget "FetchTV" */;
 			buildPhases = (
-				41B92B2D127214C86091EBC5 /* [CP] Check Pods Manifest.lock */,
+				49D460705243D429B7E8F849 /* [CP] Check Pods Manifest.lock */,
 				287F15D61BA327BD00334AD6 /* Sources */,
 				287F15D71BA327BD00334AD6 /* Frameworks */,
 				287F15D81BA327BD00334AD6 /* Resources */,
 				2881F96A1BA75FA20071A4BE /* Embed Frameworks */,
 				2896B1711BD2E834001F77A0 /* Embed App Extensions */,
-				D4091A8877592CB8469E1352 /* [CP] Embed Pods Frameworks */,
-				874048CAC2362A93C3722A82 /* [CP] Copy Pods Resources */,
+				B8F8222E4B4F00322618DDE1 /* [CP] Embed Pods Frameworks */,
+				F7FDE45D64F015C6A554BF21 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -572,17 +572,18 @@
 			attributes = {
 				LastSwiftMigration = 0710;
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Cocoon Development Ltd";
 				TargetAttributes = {
 					287F15B81BA31CF700334AD6 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = B598AEF9ZM;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					287F15D91BA327BD00334AD6 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = B598AEF9ZM;
+						DevelopmentTeam = CMM2K3BKQF;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -592,7 +593,8 @@
 					};
 					2896B15E1BD2E834001F77A0 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = B598AEF9ZM;
+						DevelopmentTeam = CMM2K3BKQF;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -654,7 +656,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0042E837EB0F5FB64B4FC37E /* [CP] Check Pods Manifest.lock */ = {
+		49D460705243D429B7E8F849 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -666,10 +668,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		41B92B2D127214C86091EBC5 /* [CP] Check Pods Manifest.lock */ = {
+		66D0819EAEA913C5332F3014 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -681,10 +683,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		709A59B93B2DD38BECDC9FFB /* [CP] Copy Pods Resources */ = {
+		94998FB96566D87D0E24DEE4 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -699,22 +701,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PutioKit/Pods-PutioKit-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		874048CAC2362A93C3722A82 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FetchTV/Pods-FetchTV-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D4091A8877592CB8469E1352 /* [CP] Embed Pods Frameworks */ = {
+		B8F8222E4B4F00322618DDE1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -727,6 +714,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FetchTV/Pods-FetchTV-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F7FDE45D64F015C6A554BF21 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FetchTV/Pods-FetchTV-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -919,14 +921,15 @@
 		};
 		287F15C21BA31CF700334AD6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A21F8BE94D16EB1AEAFD478D /* Pods-PutioKit.debug.xcconfig */;
+			baseConfigurationReference = 013EA91C7796BC40A21798F4 /* Pods-PutioKit.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -940,12 +943,12 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.getfetchapp.PutioKit;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.diegoventura.putiokit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos10.1;
+				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -955,13 +958,14 @@
 		};
 		287F15C31BA31CF700334AD6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1E5EDB50BF3EBC364B8D502F /* Pods-PutioKit.release.xcconfig */;
+			baseConfigurationReference = 945469065516F3407DCBD0C9 /* Pods-PutioKit.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Cocoon Development Ltd (B598AEF9ZM)";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -975,12 +979,12 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.getfetchapp.PutioKit;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.diegoventura.putiokit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos10.1;
+				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -990,7 +994,7 @@
 		};
 		287F15E71BA327BE00334AD6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 630A771A5863D3773117BBB0 /* Pods-FetchTV.debug.xcconfig */;
+			baseConfigurationReference = BB23FCA554E704E007F67A30 /* Pods-FetchTV.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
@@ -1000,6 +1004,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = CMM2K3BKQF;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1007,12 +1012,12 @@
 				);
 				INFOPLIST_FILE = FetchTV/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.getfetchapp.Fetch;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.diegoventura.fetch.tvos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = appletvos;
 				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
@@ -1020,7 +1025,7 @@
 		};
 		287F15E81BA327BE00334AD6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3185D2BAC64C4DD7FF137CB1 /* Pods-FetchTV.release.xcconfig */;
+			baseConfigurationReference = 9F08379135C77240F4E2EF52 /* Pods-FetchTV.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
@@ -1029,6 +1034,7 @@
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Cocoon Development Ltd (B598AEF9ZM)";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = CMM2K3BKQF;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1036,12 +1042,12 @@
 				);
 				INFOPLIST_FILE = FetchTV/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.getfetchapp.Fetch;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.diegoventura.fetch.tvos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = appletvos;
 				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
@@ -1054,14 +1060,15 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Cocoon Development Ltd (B598AEF9ZM)";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = CMM2K3BKQF;
 				INFOPLIST_FILE = TopShelf/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.getfetchapp.Fetch.TopShelf;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.diegoventura.fetch.tvos.TopShelf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
@@ -1072,14 +1079,15 @@
 				CODE_SIGN_ENTITLEMENTS = TopShelf/TopShelf.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Cocoon Development Ltd (B598AEF9ZM)";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = CMM2K3BKQF;
 				INFOPLIST_FILE = TopShelf/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.getfetchapp.Fetch.TopShelf;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.diegoventura.fetch.tvos.TopShelf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;

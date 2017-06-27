@@ -10,6 +10,6 @@ import PutioKit
 
 protocol SeasonsTableViewCellDelegate {
     
-    func performSegueWithEpisode(episode: TVEpisode)
+    func performSegueWithEpisode(_ episode: TVEpisode)
     
 }

@@ -46,7 +46,7 @@ class MediaInfoViewController: UIViewController, TVShowDelegate {
             let gradient = CAGradientLayer()
             
             gradient.frame = overview.bounds
-            gradient.colors = [UIColor.blackColor().CGColor, UIColor.blackColor().CGColor, UIColor.clearColor().CGColor, UIColor.clearColor().CGColor]
+            gradient.colors = [UIColor.black.cgColor, UIColor.black.cgColor, UIColor.clear.cgColor, UIColor.clear.cgColor]
             gradient.locations = [0.0, 0.94, 0.95, 1.0]
             overview.layer.mask = gradient
             
@@ -55,10 +55,10 @@ class MediaInfoViewController: UIViewController, TVShowDelegate {
         tvShow!.convertFilesToEpisodes()
         
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 90, right: 0)
-        if tvShow?.seasons.count > 1 {
-            scrollView.scrollEnabled = true
+        if (tvShow?.seasons.count)! > 1 {
+            scrollView.isScrollEnabled = true
         } else {
-            scrollView.scrollEnabled = false
+            scrollView.isScrollEnabled = false
         }
         
         loadBackdrop()
@@ -67,8 +67,8 @@ class MediaInfoViewController: UIViewController, TVShowDelegate {
     
     func loadBackdrop() {
         
-        poster.layer.shadowColor = UIColor.blackColor().CGColor
-        poster.layer.shadowOffset = CGSizeMake(0, 2)
+        poster.layer.shadowColor = UIColor.black.cgColor
+        poster.layer.shadowOffset = CGSize(width: 0, height: 2)
         poster.layer.shadowRadius = 5
         poster.layer.shadowOpacity = 0.2
         
@@ -86,25 +86,25 @@ class MediaInfoViewController: UIViewController, TVShowDelegate {
             }
             
             if poster.isDark() {
-                self.titleLabel.textColor = .whiteColor()
-                self.overview.textColor = .whiteColor()
+                self.titleLabel.textColor = .white
+                self.overview.textColor = .white
             }
             
         } else if tvShow?.posterURL != nil {
             
             tvShow?.loadPoster { image in
                 
-                UIView.transitionWithView(self.poster, duration: 0.5, options: .TransitionCrossDissolve, animations: {
+                UIView.transition(with: self.poster, duration: 0.5, options: .transitionCrossDissolve, animations: {
                     self.poster.image = image
                 }, completion: nil)
                 
-                UIView.transitionWithView(self.backdrop, duration: 0.5, options: .TransitionCrossDissolve, animations: {
+                UIView.transition(with: self.backdrop, duration: 0.5, options: .transitionCrossDissolve, animations: {
                     self.backdrop.image = self.blurImage(image)
                 }, completion: nil)
                 
                 if image.isDark() {
-                    self.titleLabel.textColor = .whiteColor()
-                    self.overview.textColor = .whiteColor()
+                    self.titleLabel.textColor = .white
+                    self.overview.textColor = .white
                 }
                 
             }
@@ -115,7 +115,7 @@ class MediaInfoViewController: UIViewController, TVShowDelegate {
     }
 
     
-    func blurImage(image: UIImage) -> UIImage {
+    func blurImage(_ image: UIImage) -> UIImage {
         
         let context = CIContext()
         
@@ -129,22 +129,22 @@ class MediaInfoViewController: UIViewController, TVShowDelegate {
         blurfilter!.setValue(40, forKey: "inputRadius")
         blurfilter!.setValue(imageToBlur, forKey: kCIInputImageKey)
         
-        let resultImage = blurfilter!.valueForKey(kCIOutputImageKey) as! CIImage
+        let resultImage = blurfilter!.value(forKey: kCIOutputImageKey) as! CIImage
         
-        let rect = CGRectInset(imageToBlur!.extent, 40, 0)
-        return UIImage(CGImage: context.createCGImage(resultImage, fromRect: rect)!)
+        let rect = imageToBlur!.extent.insetBy(dx: 40, dy: 0)
+        return UIImage(cgImage: context.createCGImage(resultImage, from: rect)!)
         
     }
     
     
     func tvEpisodesLoaded() {
         tableViewController?.reloadSeasons(tvShow!.seasons)
-        progressBar.hidden = true
+        progressBar.isHidden = true
         
         print("LOADED")
         
-        if tvShow?.seasons.count > 1 {
-            scrollView.scrollEnabled = true
+        if (tvShow?.seasons.count)! > 1 {
+            scrollView.isScrollEnabled = true
             layoutShelf()
         }
         
@@ -156,17 +156,17 @@ class MediaInfoViewController: UIViewController, TVShowDelegate {
     
     func layoutShelf() {
         let rect = tableViewController!.tableView.frame
-        let frame = CGRectMake(rect.origin.x, rect.origin.y, rect.width, tableViewController!.tableView.contentSize.height)
+        let frame = CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.width, height: tableViewController!.tableView.contentSize.height)
         tableViewController!.tableView.frame = frame
         
         scrollView.contentSize.height = tableViewController!.tableView.contentSize.height + 700
         heightConst.constant = tableViewController!.tableView.contentSize.height + 700
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "embedSeasonsTable" {
-            tableViewController = segue.destinationViewController as? SeasonsTableViewController
+            tableViewController = segue.destination as? SeasonsTableViewController
             tableViewController?.tableView.contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0)
         }
         

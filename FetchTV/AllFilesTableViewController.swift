@@ -16,8 +16,8 @@ class AllFilesTableViewController: UITableViewController {
         tableView.contentInset = UIEdgeInsets(top: 40, left: 0, bottom: 60, right: 0)
     }
     
-    override func didMoveToParentViewController(parent: UIViewController?) {
-        super.didMoveToParentViewController(parent)
+    override func didMove(toParentViewController parent: UIViewController?) {
+        super.didMove(toParentViewController: parent)
         let p = parent as! AllFilesViewController
         tableView.dataSource = p
         tableView.delegate = p

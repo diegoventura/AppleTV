@@ -47,15 +47,15 @@ public class File: NSObject {
     // MARK: - Delete File
     
     public func destroy() {
-        Putio.networkActivityIndicatorVisible(true)
+        Putio.networkActivityIndicatorVisible(yn: true)
         
         let params = ["oauth_token": "\(Putio.accessToken!)", "file_ids": "\(id)"]
         
-        Alamofire.request(.POST, "\(Putio.api)files/delete", parameters: params)
+        Alamofire.request("\(Putio.api)files/delete", method: .post, parameters: params)
             .responseJSON { response in
-                Putio.networkActivityIndicatorVisible(false)
+                Putio.networkActivityIndicatorVisible(yn: false)
                 if response.result.isFailure {
-                    print(response.result.error)
+                    print(response.result.error ?? "")
                 }
         }
     }
@@ -63,15 +63,15 @@ public class File: NSObject {
     // MARK: - Convert to MP4
     
     public func convertToMp4() {
-        Putio.networkActivityIndicatorVisible(true)
+        Putio.networkActivityIndicatorVisible(yn: true)
         
         let params = ["oauth_token": "\(Putio.accessToken!)"]
         
-        Alamofire.request(.POST, "\(Putio.api)files/\(id)/mp4", parameters: params)
+        Alamofire.request("\(Putio.api)files/\(id)/mp4", method: .post, parameters: params)
             .responseJSON { response in
-                Putio.networkActivityIndicatorVisible(false)
+                Putio.networkActivityIndicatorVisible(yn: false)
                 if response.result.isFailure {
-                    print(response.result.error)
+                    print(response.result.error ?? "")
                 }
         }
     }
@@ -79,51 +79,50 @@ public class File: NSObject {
     // MARK: - Save the time
     
     public func saveTime() {
-        Putio.networkActivityIndicatorVisible(true)
+        Putio.networkActivityIndicatorVisible(yn: true)
         
         let params = ["oauth_token": "\(Putio.accessToken!)", "time": "\(start_from)"]
         
-        Alamofire.request(.POST, "\(Putio.api)files/\(id)/start-from/set", parameters: params)
+        Alamofire.request("\(Putio.api)files/\(id)/start-from/set", method: .post, parameters: params)
             .responseJSON { _ in
                 print("time saved")
-                Putio.networkActivityIndicatorVisible(false)
+                Putio.networkActivityIndicatorVisible(yn: false)
             }
     }
     
     // MARK: - Rename
     
     public func renameWithAlert(alert: UIAlertController) {
-        Putio.networkActivityIndicatorVisible(true)
+        Putio.networkActivityIndicatorVisible(yn: true)
         
         let textField = alert.textFields![0] 
         name = textField.text!
         
         let params = ["oauth_token": "\(Putio.accessToken!)", "file_id": "\(id)", "name": "\(name)"]
         
-        Alamofire.request(.POST, "\(Putio.api)files/rename", parameters: params)
-            .response { _, _, _, _ in
-                Putio.networkActivityIndicatorVisible(false)
-            }
+        Alamofire.request("\(Putio.api)files/rename", method: .post, parameters: params).responseJSON { _ in
+            Putio.networkActivityIndicatorVisible(yn: false)
+        }
     }
     
     // MARK: - Move
     
     public func moveTo(parentId: Int32) {
-        Putio.networkActivityIndicatorVisible(true)
+        Putio.networkActivityIndicatorVisible(yn: true)
         
         let params = ["oauth_token": "\(Putio.accessToken!)", "file_ids": "\(id)", "parent_id": "\(parentId)"]
         
-        Alamofire.request(.POST, "\(Putio.api)files/move", parameters: params)
+        Alamofire.request("\(Putio.api)files/move", method: .post, parameters: params)
             .responseJSON { _ in
-                Putio.networkActivityIndicatorVisible(false)
+                Putio.networkActivityIndicatorVisible(yn: false)
             }
     }
     
-    public func getTime(callback: () -> Void) {
+    public func getTime(callback: @escaping () -> Void) {
         
         let params = ["oauth_token": "\(Putio.accessToken!)", "start_from": "1"]
         
-        Alamofire.request(.GET, "\(Putio.api)files/\(id)", parameters: params)
+        Alamofire.request("\(Putio.api)files/\(id)", method: .get, parameters: params)
             .responseJSON { response in
                 if response.result.isSuccess {
                     let json = JSON(response.result.value!)
@@ -136,11 +135,11 @@ public class File: NSObject {
             }
     }
     
-    public class func getFileById(id: String, callback: (File) -> Void) {
+    public class func getFileById(id: String, callback: @escaping (File) -> Void) {
         
         let params = ["oauth_token": "\(Putio.accessToken!)", "start_from": "1"]
         
-        Alamofire.request(.GET, "\(Putio.api)files/\(id)", parameters: params)
+        Alamofire.request("\(Putio.api)files/\(id)", method: .get, parameters: params)
             .responseJSON { response in
                 if response.result.isSuccess {
                     let json = JSON(response.result.value!)

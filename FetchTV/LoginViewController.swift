@@ -25,13 +25,13 @@ class LoginViewController: LoginParentViewController {
     // MARK: - Login
     
     override func tokenGenerated() {
-        qrView.image = UIImage(CIImage: generateQrFromString(LoginListener.sharedInstance.token!))
+        qrView.image = UIImage(ciImage: generateQrFromString(LoginListener.sharedInstance.token!))
         activityView.stopAnimating()
-        urlBtn.enabled = true
+        urlBtn.isEnabled = true
     }
 
-    func generateQrFromString(string: String) -> CIImage {
-        let data = string.dataUsingEncoding(NSISOLatin1StringEncoding, allowLossyConversion: false)
+    func generateQrFromString(_ string: String) -> CIImage {
+        let data = string.data(using: String.Encoding.isoLatin1, allowLossyConversion: false)
         let filter = CIFilter(name: "CIQRCodeGenerator")!
     
         filter.setValue(data, forKey: "inputMessage")
@@ -41,7 +41,7 @@ class LoginViewController: LoginParentViewController {
         let scaleX = qrView.frame.size.width / image.extent.size.width
         let scaleY = qrView.frame.size.height / image.extent.size.height
     
-        return image.imageByApplyingTransform(CGAffineTransformMakeScale(scaleX, scaleY))
+        return image.applying(CGAffineTransform(scaleX: scaleX, y: scaleY))
     
     }
 

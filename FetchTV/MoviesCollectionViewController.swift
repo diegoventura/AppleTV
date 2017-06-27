@@ -16,38 +16,38 @@ class MoviesCollectionViewController: UICollectionViewController {
     
     var noMediaView: NoMediaView?
     
-    var focusPath = NSIndexPath(forItem: 0, inSection: 0)
+    var focusPath = IndexPath(item: 0, section: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        noMediaView = NSBundle.mainBundle().loadNibNamed("NoMediaView", owner: self, options: nil)![0] as? NoMediaView
+        noMediaView = Bundle.main.loadNibNamed("NoMediaView", owner: self, options: nil)![0] as? NoMediaView
         noMediaView?.label.text = "No Movies Available"
         noMediaView?.frame = view.bounds
-        noMediaView?.hidden = true
+        noMediaView?.isHidden = true
         view.addSubview(noMediaView!)
         
         showNoMediaMessageIfRequired()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MoviesCollectionViewController.tmdbLoaded(_:)), name: "TMDBFinished", object: Videos.sharedInstance)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MoviesCollectionViewController.refreshHasBegan), name: "RefreshBegan", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MoviesCollectionViewController.tmdbLoaded(_:)), name: NSNotification.Name(rawValue: "TMDBFinished"), object: Videos.sharedInstance)
+        NotificationCenter.default.addObserver(self, selector: #selector(MoviesCollectionViewController.refreshHasBegan), name: NSNotification.Name(rawValue: "RefreshBegan"), object: nil)
         
         collectionView?.remembersLastFocusedIndexPath = true
     }
     
-    override func indexPathForPreferredFocusedViewInCollectionView(collectionView: UICollectionView) -> NSIndexPath? {
+    override func indexPathForPreferredFocusedView(in collectionView: UICollectionView) -> IndexPath? {
         return focusPath
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         showNoMediaMessageIfRequired()
-        if !collectionView!.focused {
-            focusPath = NSIndexPath(forItem: 0, inSection: 0)
+        if !collectionView!.isFocused {
+            focusPath = IndexPath(item: 0, section: 0)
         }
     }
     
-    override func collectionView(collectionView: UICollectionView, didUpdateFocusInContext context: UICollectionViewFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
+    override func collectionView(_ collectionView: UICollectionView, didUpdateFocusIn context: UICollectionViewFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
         
         if let next = context.nextFocusedIndexPath {
             focusPath = next
@@ -57,14 +57,14 @@ class MoviesCollectionViewController: UICollectionViewController {
     
     // MARK: - Sync
     
-    func tmdbLoaded(sender: AnyObject?) {
+    func tmdbLoaded(_ sender: AnyObject?) {
         showNoMediaMessageIfRequired()
         collectionView?.reloadData()
     }
     
     func refreshHasBegan() {
-        if UIScreen.mainScreen().focusedView as? UICollectionViewCell == nil {
-            focusPath = NSIndexPath(forItem: 0, inSection: 0)
+        if UIScreen.main.focusedView as? UICollectionViewCell == nil {
+            focusPath = IndexPath(item: 0, section: 0)
             setNeedsFocusUpdate()
             updateFocusIfNeeded()
         }
@@ -72,25 +72,25 @@ class MoviesCollectionViewController: UICollectionViewController {
 
     func showNoMediaMessageIfRequired() {
         if Videos.sharedInstance.sortedMovies.count == 0 {
-            noMediaView?.hidden = false
+            noMediaView?.isHidden = false
         } else {
-            noMediaView?.hidden = true
+            noMediaView?.isHidden = true
         }
     }
     
     // MARK: UICollectionViewDataSource
 
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return Videos.sharedInstance.sortedMovies.count
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("posterCell", forIndexPath: indexPath) as! PosterCollectionViewCell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "posterCell", for: indexPath) as! PosterCollectionViewCell
         
         let movie = Videos.sharedInstance.sortedMovies[indexPath.row]
         cell.label.text = movie.title
@@ -100,7 +100,7 @@ class MoviesCollectionViewController: UICollectionViewController {
         } else {
             cell.poster.image = UIImage(named: "poster")
             movie.loadPoster { image in 
-                UIView.transitionWithView(cell.poster, duration: 0.5, options: .TransitionCrossDissolve, animations: {
+                UIView.transition(with: cell.poster, duration: 0.5, options: .transitionCrossDissolve, animations: {
                     cell.poster.image = image
                 }, completion: nil)
             }
@@ -109,20 +109,20 @@ class MoviesCollectionViewController: UICollectionViewController {
         return cell
     }
     
-    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        return collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "tvShowsHeader", forIndexPath: indexPath)
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "tvShowsHeader", for: indexPath)
     }
     
     // MARK: - Navigation
     
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         focusPath = indexPath
         selectedMovie = Videos.sharedInstance.sortedMovies[indexPath.row]
-        performSegueWithIdentifier("showInfo", sender: self)
+        performSegue(withIdentifier: "showInfo", sender: self)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let vc = segue.destinationViewController as! MovieInfoViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! MovieInfoViewController
         vc.movie = selectedMovie
     }
 

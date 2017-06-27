@@ -38,9 +38,9 @@ public class TVEpisode {
     public var still: UIImage?
     
     /// Load the movie poster
-    public func loadStill(callback: (UIImage) -> Void) {
+    public func loadStill(callback: @escaping (UIImage) -> Void) {
         if let url = stillURL {
-            Alamofire.request(.GET, "https://image.tmdb.org/t/p/w780\(url)")
+            Alamofire.request("https://image.tmdb.org/t/p/w780\(url)", method: .get)
                 .responseImage { response in
                     if let image = response.result.value {
                         self.still = image
@@ -49,7 +49,7 @@ public class TVEpisode {
                 }
             
         } else if let url = file?.screenshot {
-            Alamofire.request(.GET, "\(url)")
+            Alamofire.request("\(url)", method: .get)
                 .responseImage { response in
                     if let image = response.result.value {
                         self.still = image

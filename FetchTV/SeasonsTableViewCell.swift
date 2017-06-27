@@ -20,29 +20,29 @@ class SeasonsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollect
     
     var delegate: SeasonsTableViewCellDelegate?
     
-    override func canBecomeFocused() -> Bool {
+    override var canBecomeFocused : Bool {
         return false
     }
     
-    var focusPath = NSIndexPath(forRow: 0, inSection: 0)
+    var focusPath = IndexPath(row: 0, section: 0)
     
     // MARK: UICollectionViewDataSource
     
-    func indexPathForPreferredFocusedViewInCollectionView(collectionView: UICollectionView) -> NSIndexPath? {
+    func indexPathForPreferredFocusedView(in collectionView: UICollectionView) -> IndexPath? {
         return focusPath
     }
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return episodes.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("episodeCell", forIndexPath: indexPath) as! EpisodeCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "episodeCell", for: indexPath) as! EpisodeCollectionViewCell
         
         let ep = episodes[indexPath.row]
         
@@ -53,7 +53,7 @@ class SeasonsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollect
         } else {
             cell.image.image = (ep.file!.accessed) ? compositeImage(UIImage(named: "episode")!) : UIImage(named: "episode")
             ep.loadStill { image in
-                UIView.transitionWithView(cell.image, duration: 0.5, options: .TransitionCrossDissolve, animations: {
+                UIView.transition(with: cell.image, duration: 0.5, options: .transitionCrossDissolve, animations: {
                     cell.image.image = (ep.file!.accessed) ? self.self.compositeImage(image) : image
                 }, completion: nil)
             }
@@ -63,23 +63,23 @@ class SeasonsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollect
     }
     
     
-    func compositeImage(image1: UIImage) -> UIImage {
+    func compositeImage(_ image1: UIImage) -> UIImage {
         
-        let size = CGSizeMake(308, 172);
+        let size = CGSize(width: 308, height: 172);
         let scale: CGFloat = 0.0
         
         // Scale the image
-        image1.drawAtPoint(CGPointMake(0, 0))
+        image1.draw(at: CGPoint(x: 0, y: 0))
         UIGraphicsBeginImageContextWithOptions(size, false , scale)
-        image1.drawInRect(CGRect(origin: CGPointZero, size: size))
+        image1.draw(in: CGRect(origin: CGPoint.zero, size: size))
         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         // Draw the tick
         UIGraphicsBeginImageContextWithOptions(size, false , scale)
-        scaledImage!.drawAtPoint(CGPointMake(0, 0))
+        scaledImage!.draw(at: CGPoint(x: 0, y: 0))
         let tick = UIImage(named: "done")
-        tick?.drawAtPoint(CGPointMake(0, 0))
+        tick?.draw(at: CGPoint(x: 0, y: 0))
         let result = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
@@ -90,13 +90,13 @@ class SeasonsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollect
     
     // MARK: - UICollectionViewDelegate
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let episode = episodes.sort({ $0.episodeNo! < $1.episodeNo! })[indexPath.row]
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let episode = episodes.sorted(by: { $0.episodeNo! < $1.episodeNo! })[indexPath.row]
         episode.file?.accessed = true
         
         // TODO: See if we can fix the nasty animation change
         self.focusPath = indexPath
-        self.collectionView.reloadItemsAtIndexPaths([indexPath])
+        self.collectionView.reloadItems(at: [indexPath])
         self.collectionView.updateFocusIfNeeded()
         
         delegate?.performSegueWithEpisode(episode)

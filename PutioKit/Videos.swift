@@ -31,14 +31,14 @@ public class Videos {
     /// Movies sorted alphabetically
     public var sortedMovies: [Movie] {
         get {
-           return self.movies.sort({ $0.sortableTitle < $1.sortableTitle })
+           return self.movies.sorted(by: { $0.sortableTitle! < $1.sortableTitle! })
         }
     }
 
     /// TV shows sorted alphabetically
     public var sortedTV: [TVShow] {
         get {
-            return self.tvShows.sort({ $0.sortableTitle < $1.sortableTitle })
+            return self.tvShows.sorted(by: { $0.sortableTitle! < $1.sortableTitle! })
         }
     }
     
@@ -69,15 +69,15 @@ public class Videos {
     
     init() {
         
-        if let cachedMovies = NSUserDefaults(suiteName: "group.FetchPutIo")?.objectForKey("movies") as? [[String:AnyObject]] {
+        if let cachedMovies = UserDefaults(suiteName: "group.FetchPutIo")?.object(forKey: "movies") as? [[String:AnyObject]] {
             for m in cachedMovies {
-                movies.append(Movie.fromCache(m))
+                movies.append(Movie.fromCache(cache: m))
             }
         }
         
-        if let cachedShows = NSUserDefaults(suiteName: "group.FetchPutIo")?.objectForKey("shows") as? [[String:AnyObject]] {
+        if let cachedShows = UserDefaults(suiteName: "group.FetchPutIo")?.object(forKey: "shows") as? [[String:AnyObject]] {
             for s in cachedShows {
-                tvShows.append(TVShow.fromCache(s))
+                tvShows.append(TVShow.fromCache(cache: s))
             }
         }
         
@@ -105,12 +105,12 @@ public class Videos {
         }
         
         let params = ["oauth_token": "\(Putio.accessToken!)", "start_from": "1"]
-        Alamofire.request(.GET, "\(Putio.api)files/list", parameters: params)
+        Alamofire.request("\(Putio.api)files/list", method: .get, parameters: params)
             .responseJSON { response in
                 if response.result.isSuccess {
                     let json = JSON(response.result.value!)
                     let files = json["files"].array!.map(self.parseFile)
-                    self.recursivelyFetchFiles(files)
+                    self.recursivelyFetchFiles(files: files)
                 }
             }
     }
@@ -121,7 +121,7 @@ public class Videos {
      - parameter files: Files to fetch
      */
     private func recursivelyFetchFiles(files: [File]) {
-        self.files.appendContentsOf(files)
+        self.files.append(contentsOf: files)
         for file in files {
             
             if file.is_shared {
@@ -130,16 +130,16 @@ public class Videos {
             
             if file.content_type == "application/x-directory" {
                 folderCount += 1
-                loadSubfolderFromFile(file) { files in
+                loadSubfolderFromFile(file: file) { files in
                     self.folderCount -= 1
-                    self.recursivelyFetchFiles(files)
+                    self.recursivelyFetchFiles(files: files)
                 }
             }
         }
         
         if folderCount == 0 && movies.count == 0 && tvShows.count == 0 { // This is the first run
             print("Finished fetching files")
-            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "PutioFinished", object: self))
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "PutioFinished"), object: self))
             convertToSearchTerms()
         } else if folderCount == 0 { // This is a refresh
             print("Finished re-fetching files")
@@ -148,7 +148,7 @@ public class Videos {
                 convertToSearchTerms()
             } else {
                 syncing = false
-                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "RefreshComplete", object: self))
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "RefreshComplete"), object: self))
             }
         }
     }
@@ -159,14 +159,14 @@ public class Videos {
      - parameter file:     The folder to fetch
      - parameter callback: Called when Alamofire has finished
      */
-    private func loadSubfolderFromFile(file: File, callback: ([File]) -> Void) {
+    private func loadSubfolderFromFile(file: File, callback: @escaping ([File]) -> Void) {
         guard Putio.accessToken != nil else {
             print("Logged out")
             return
         }
         
         let params = ["oauth_token": "\(Putio.accessToken!)", "parent_id": "\(file.id)", "start_from": "1"]
-        Alamofire.request(.GET, "\(Putio.api)files/list", parameters: params)
+        Alamofire.request("\(Putio.api)files/list", method: .get, parameters: params)
             .responseJSON { response in
                 
                 if response.result.isSuccess {
@@ -215,13 +215,13 @@ public class Videos {
                 
                 let d = Downpour(string: file.name)
   
-                if let search = searches[d.title.lowercaseString] {
+                if let search = searches[d.title.lowercased()] {
                     search.files.append(file)
                 } else {
                     let search = TMDBSearch()
                     search.downpour = d
                     search.files.append(file)
-                    searches[d.title.lowercaseString] = search
+                    searches[d.title.lowercased()] = search
                 }
 
                 // Searching parents may be overkill especially as people double nest
@@ -261,7 +261,7 @@ public class Videos {
                 self.folderCount -= 1
                 self.completed += 1
                 
-                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "TMDBUpdated", object: self))
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "TMDBUpdated"), object: self))
                 
                 if let tvshow = result.tvshow {
                     tvshow.files = term.1.files
@@ -289,17 +289,17 @@ public class Videos {
                     syncing = false
                     
                     // Tell the App it's all done
-                    NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "TMDBFinished", object: self))
-                    NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "RefreshComplete", object: self))
+                    NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "TMDBFinished"), object: self))
+                    NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "RefreshComplete"), object: self))
                     
                 }
                 
             }
             
-            if term.1.downpour?.type == .Movie {
-                TMDB.searchMoviesWithString(term.0, year: term.1.downpour?.year, callback: parseResult)
+            if term.1.downpour?.type == .movie {
+                TMDB.searchMoviesWithString(string: term.0, year: term.1.downpour?.year, callback: parseResult)
             } else {
-                TMDB.searchTVWithString(term.0, year: term.1.downpour?.year, callback: parseResult)
+                TMDB.searchTVWithString(string: term.0, year: term.1.downpour?.year, callback: parseResult)
             }
             
             
@@ -310,13 +310,13 @@ public class Videos {
     #if os(tvOS)
     func saveToDefaults() {
         // Save it to the app group for use in the TopShelfExtension
-        if let defaults = NSUserDefaults(suiteName: "group.FetchPutIo") {
+        if let defaults = UserDefaults(suiteName: "group.FetchPutIo") {
             
-            let sorted = movies.sort({ $0.files[0].created_at! > $1.files[0].created_at! })
+            let sorted = movies.sorted(by: { $0.files[0].created_at! > $1.files[0].created_at! })
             
-            let mArray: [[String:AnyObject]] = sorted.map {
+            let mArray: [[String:Any]] = sorted.map {
                 
-                let files: [[String:AnyObject]] = $0.files.map { file in
+                let files: [[String:Any]] = $0.files.map { file in
                     return [
                         "id": Int(file.id),
                         "name": file.name,
@@ -336,11 +336,11 @@ public class Videos {
             }
             
             
-            let sortedTV = tvShows.sort({ $0.files[0].created_at! > $1.files[0].created_at! })
+            let sortedTV = tvShows.sorted(by: { $0.files[0].created_at! > $1.files[0].created_at! })
             
-            let tArray: [[String:AnyObject]] = sortedTV.map {
+            let tArray: [[String:Any]] = sortedTV.map {
                 
-                let files: [[String:AnyObject]] = $0.files.map { file in
+                let files: [[String:Any]] = $0.files.map { file in
                     return [
                         "id": Int(file.id),
                         "name": file.name,
@@ -359,12 +359,12 @@ public class Videos {
                 ]
             }
             
-            defaults.setObject(mArray, forKey: "movies")
-            defaults.setObject(tArray, forKey: "shows")
+            defaults.set(mArray, forKey: "movies")
+            defaults.set(tArray, forKey: "shows")
             defaults.synchronize()
             
-            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name:
-                TVTopShelfItemsDidChangeNotification, object: nil))
+            NotificationCenter.default.post(Notification(name:
+                NSNotification.Name.TVTopShelfItemsDidChange, object: nil))
         }
     }
     #endif
@@ -378,12 +378,12 @@ public class Videos {
         searches = [:]
         
         #if os(tvOS)
-        if let defaults = NSUserDefaults(suiteName: "group.FetchPutIo") {
-            defaults.setObject(nil, forKey: "movies")
-            defaults.setObject(nil, forKey: "shows")
+        if let defaults = UserDefaults(suiteName: "group.FetchPutIo") {
+            defaults.set(nil, forKey: "movies")
+            defaults.set(nil, forKey: "shows")
             defaults.synchronize()
-            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name:
-                TVTopShelfItemsDidChangeNotification, object: nil))
+            NotificationCenter.default.post(Notification(name:
+                NSNotification.Name.TVTopShelfItemsDidChange, object: nil))
         }
         #endif
     }

@@ -25,7 +25,7 @@ class SeasonsTableViewController: UITableViewController, SeasonsTableViewCellDel
     
     var orderedSeasons: [String] {
         get {
-            return seasonTitles.sort({ $0 > $1 })
+            return seasonTitles.sorted(by: { $0 > $1 })
         }
     }
     
@@ -34,11 +34,11 @@ class SeasonsTableViewController: UITableViewController, SeasonsTableViewCellDel
      
      - parameter seasons: Season and TV Episodes
      */
-    func reloadSeasons(seasons: [String:[TVEpisode]]!) {
+    func reloadSeasons(_ seasons: [String:[TVEpisode]]!) {
         self.seasons = seasons
         if seasons.count == 1 {
-            tableView?.scrollEnabled = false
-            tableView?.maskView = nil
+            tableView?.isScrollEnabled = false
+            tableView?.mask = nil
         }
         
         tableView?.reloadData()
@@ -48,25 +48,25 @@ class SeasonsTableViewController: UITableViewController, SeasonsTableViewCellDel
     
     // MARK: - UITableViewDatasource
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return seasons.count
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return orderedSeasons[section].uppercaseString
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return orderedSeasons[section].uppercased()
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("episodesCollectionCell") as! SeasonsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "episodesCollectionCell") as! SeasonsTableViewCell
         
         let key = orderedSeasons[indexPath.section]
         let season = seasons[key]!
-        cell.episodes = season.sort({ $0.episodeNo! < $1.episodeNo! })
+        cell.episodes = season.sorted(by: { $0.episodeNo! < $1.episodeNo! })
         cell.delegate = self
         cell.collectionView.reloadData()
         
@@ -74,45 +74,45 @@ class SeasonsTableViewController: UITableViewController, SeasonsTableViewCellDel
         
     }
     
-    func performSegueWithEpisode(episode: TVEpisode) {
+    func performSegueWithEpisode(_ episode: TVEpisode) {
         self.episode = episode
         episode.file?.getTime {
-            self.performSegueWithIdentifier("showPlayer", sender: self)
+            self.performSegue(withIdentifier: "showPlayer", sender: self)
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let videoController: MediaPlayerViewController = segue.destinationViewController as! MediaPlayerViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let videoController: MediaPlayerViewController = segue.destination as! MediaPlayerViewController
         videoController.file = episode!.file
         let urlString = "\(Putio.api)files/\(episode!.file!.id)/hls/media.m3u8?oauth_token=\(Putio.accessToken!)&subtitle_key=default"
-        let url = NSURL(string: urlString)
+        let url = URL(string: urlString)
         
-        let video = AVPlayerItem(URL: url!)
+        let video = AVPlayerItem(url: url!)
         
         if let image = episode!.still {
             let artwork = AVMutableMetadataItem()
-            artwork.key = AVMetadataCommonKeyArtwork
+            artwork.key = AVMetadataCommonKeyArtwork as NSCopying & NSObjectProtocol
             artwork.keySpace = AVMetadataKeySpaceCommon
-            artwork.value = UIImagePNGRepresentation(image)
-            artwork.locale = NSLocale.currentLocale()
+            artwork.value = UIImagePNGRepresentation(image)! as NSCopying & NSObjectProtocol
+            artwork.locale = Locale.current
             video.externalMetadata.append(artwork)
         }
         
         if let epTitle = episode!.title {
             let title = AVMutableMetadataItem()
-            title.key = AVMetadataCommonKeyTitle
+            title.key = AVMetadataCommonKeyTitle as NSCopying & NSObjectProtocol
             title.keySpace = AVMetadataKeySpaceCommon
-            title.value = epTitle
-            title.locale = NSLocale.currentLocale()
+            title.value = epTitle as NSCopying & NSObjectProtocol
+            title.locale = Locale.current
             video.externalMetadata.append(title)
         }
         
         if let overview = episode!.overview {
             let description = AVMutableMetadataItem()
-            description.key = AVMetadataCommonKeyDescription
+            description.key = AVMetadataCommonKeyDescription as NSCopying & NSObjectProtocol
             description.keySpace = AVMetadataKeySpaceCommon
-            description.value = overview
-            description.locale = NSLocale.currentLocale()
+            description.value = overview as NSCopying & NSObjectProtocol
+            description.locale = Locale.current
             video.externalMetadata.append(description)
         }
         

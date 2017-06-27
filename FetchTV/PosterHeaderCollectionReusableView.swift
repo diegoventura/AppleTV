@@ -11,23 +11,23 @@ import PutioKit
 
 class PosterHeaderCollectionReusableView: UICollectionReusableView {
     
-    private var focusGuide = UIFocusGuide()
+    fileprivate var focusGuide = UIFocusGuide()
     
     @IBOutlet weak var syncBtn: UIButton!
     
-    @IBAction func refresh(sender: AnyObject) {
+    @IBAction func refresh(_ sender: AnyObject) {
         print("trigger from button")
-        NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "TriggerRefresh", object: nil))
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "TriggerRefresh"), object: nil))
     }
     
     override func awakeFromNib() {
-        syncBtn.setTitle("Syncing...", forState: UIControlState.Disabled)
+        syncBtn.setTitle("Syncing...", for: UIControlState.disabled)
         if Videos.sharedInstance.syncing {
-            syncBtn.enabled = false
+            syncBtn.isEnabled = false
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PosterHeaderCollectionReusableView.refreshHasBegan), name: "RefreshBegan", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PosterHeaderCollectionReusableView.finishedRefresh), name: "RefreshComplete", object: Videos.sharedInstance)
+        NotificationCenter.default.addObserver(self, selector: #selector(PosterHeaderCollectionReusableView.refreshHasBegan), name: NSNotification.Name(rawValue: "RefreshBegan"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PosterHeaderCollectionReusableView.finishedRefresh), name: NSNotification.Name(rawValue: "RefreshComplete"), object: Videos.sharedInstance)
     }
     
     override func prepareForReuse() {
@@ -35,19 +35,19 @@ class PosterHeaderCollectionReusableView: UICollectionReusableView {
         focusGuide.preferredFocusedView = syncBtn
         
         // Anchor the top left of the focus guide.
-        focusGuide.leftAnchor.constraintEqualToAnchor(leftAnchor).active = true
-        focusGuide.topAnchor.constraintEqualToAnchor(topAnchor).active = true
-        focusGuide.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
-        focusGuide.rightAnchor.constraintEqualToAnchor(rightAnchor).active = true
+        focusGuide.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        focusGuide.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        focusGuide.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        focusGuide.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
     }
     
     
     func finishedRefresh() {
-        syncBtn.enabled = true
+        syncBtn.isEnabled = true
     }
     
     func refreshHasBegan() {
-        syncBtn.enabled = false
+        syncBtn.isEnabled = false
     }
     
 }

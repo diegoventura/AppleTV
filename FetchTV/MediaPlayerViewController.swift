@@ -15,7 +15,7 @@ class MediaPlayerViewController: AVPlayerViewController {
     // MARK: - Variables
     
     var file: File?
-    var notifier = NSNotificationCenter.defaultCenter()
+    var notifier = NotificationCenter.default
     var observer: AnyObject?
     var checked = false
     
@@ -34,17 +34,17 @@ class MediaPlayerViewController: AVPlayerViewController {
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Store the current position when the app is exited
-        notifier.addObserver(self, selector: #selector(MediaPlayerViewController.saveTime), name: UIApplicationWillResignActiveNotification, object: nil)
-        notifier.addObserver(self, selector: #selector(MediaPlayerViewController.finished), name: AVPlayerItemDidPlayToEndTimeNotification, object: player!.currentItem!)
+        notifier.addObserver(self, selector: #selector(MediaPlayerViewController.saveTime), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
+        notifier.addObserver(self, selector: #selector(MediaPlayerViewController.finished), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: player!.currentItem!)
         
         // Check the time at intervals
-        observer = player?.addPeriodicTimeObserverForInterval(CMTimeMake(15, 1), queue: nil) { (time) -> Void in
+        observer = player?.addPeriodicTimeObserver(forInterval: CMTimeMake(15, 1), queue: nil) { (time) -> Void in
             self.saveTime()
-        }
+        } as AnyObject
         
         // Show the alert box when the thing has started but only if we haven't already checked.
         if file!.start_from > 0 && !checked {
@@ -54,7 +54,7 @@ class MediaPlayerViewController: AVPlayerViewController {
         
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         saveTime()
         
@@ -71,19 +71,19 @@ class MediaPlayerViewController: AVPlayerViewController {
         
         player!.pause()
         
-        let avc: UIAlertController = UIAlertController(title: "Continue Playing", message: "Would you like to continue where you left off?", preferredStyle: .Alert)
+        let avc: UIAlertController = UIAlertController(title: "Continue Playing", message: "Would you like to continue where you left off?", preferredStyle: .alert)
         
-        avc.addAction(UIAlertAction(title: "Continue Playing", style: .Default, handler: { _ in
+        avc.addAction(UIAlertAction(title: "Continue Playing", style: .default, handler: { _ in
             let loadedTime = CMTimeMakeWithSeconds(self.file!.start_from, 600)
-            self.player!.seekToTime(loadedTime)
+            self.player!.seek(to: loadedTime)
             self.player!.play()
         }))
         
-        avc.addAction(UIAlertAction(title: "Start From The Beginning", style: .Cancel, handler: { _ in
+        avc.addAction(UIAlertAction(title: "Start From The Beginning", style: .cancel, handler: { _ in
             self.player!.play()
         }))
         
-        presentViewController(avc, animated: true, completion: nil)
+        present(avc, animated: true, completion: nil)
     }
     
     
@@ -97,7 +97,7 @@ class MediaPlayerViewController: AVPlayerViewController {
     }
     
     func finished() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     

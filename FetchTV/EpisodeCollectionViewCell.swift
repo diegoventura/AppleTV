@@ -16,17 +16,17 @@ class EpisodeCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         label.layer.zPosition = 10
-        label.layer.shadowColor = UIColor.blackColor().CGColor
-        label.layer.shadowOffset = CGSizeMake(0, 1)
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowOffset = CGSize(width: 0, height: 1)
         label.layer.shadowRadius = 2
         label.layer.shadowOpacity = 0.6
-        label.hidden = false
+        label.isHidden = false
         label.alpha = 0
     }
     
-    override func didUpdateFocusInContext(context: UIFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
+    override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
         coordinator.addCoordinatedAnimations({
-            self.label.alpha = (self.focused) ? 1 : 0
+            self.label.alpha = (self.isFocused) ? 1 : 0
         }, completion: nil)
     }
     

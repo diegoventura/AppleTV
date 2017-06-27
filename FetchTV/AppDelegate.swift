@@ -15,14 +15,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         showFirstRunIfRequired()
         
         return true
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         showFirstRunIfRequired()
     }
 
@@ -30,29 +30,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func showFirstRunIfRequired() {
         
-        if NSUserDefaults.standardUserDefaults().boolForKey("logout") {
+        if UserDefaults.standard.bool(forKey: "logout") {
             Putio.keychain["access_token"] = nil
             Videos.sharedInstance.wipe()
             LoginListener.sharedInstance.getTVToken()
-            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "logout")
+            UserDefaults.standard.set(false, forKey: "logout")
         }
         
         if Putio.accessToken == nil {
             let sb = UIStoryboard(name: "Login", bundle: nil)
             window?.rootViewController = sb.instantiateInitialViewController()
-        } else if NSUserDefaults.standardUserDefaults().boolForKey("disableMediaSections") {
+        } else if UserDefaults.standard.bool(forKey: "disableMediaSections") {
             let sb = UIStoryboard(name: "Main", bundle: nil)
-            window?.rootViewController = sb.instantiateViewControllerWithIdentifier("allFilesView")
+            window?.rootViewController = sb.instantiateViewController(withIdentifier: "allFilesView")
         } else if ((window?.rootViewController as? FetchTabBarController) == nil) {
             let sb = UIStoryboard(name: "Main", bundle: nil)
             window?.rootViewController = sb.instantiateInitialViewController()
-            NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: "TriggerRefresh", object: nil))
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "TriggerRefresh"), object: nil))
         }
     }
     
     // MARK: - Open With a URL
     
-    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
         
         if url.host! == "play" {
             
@@ -60,28 +60,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         } else if url.host! == "movie" {
             
-            if let movies = NSUserDefaults(suiteName: "group.FetchPutIo")?.objectForKey("movies") as? [[String:AnyObject]] {
+            if let movies = UserDefaults(suiteName: "group.FetchPutIo")?.object(forKey: "movies") as? [[String:AnyObject]] {
                 
-                let m = movies.filter({ $0["id"] as! String == url.pathComponents![1] })[0]
-                let movie = Movie.fromCache(m)
+                let m = movies.filter({ $0["id"] as! String == url.pathComponents[1] })[0]
+                let movie = Movie.fromCache(cache: m)
                 
-                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("movieInfo") as! MovieInfoViewController
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "movieInfo") as! MovieInfoViewController
                 vc.movie = movie
                 
-                window?.rootViewController?.presentViewController(vc, animated: true, completion: nil)
+                window?.rootViewController?.present(vc, animated: true, completion: nil)
             }
             
         } else if url.host! == "tv" {
             
-            if let shows = NSUserDefaults(suiteName: "group.FetchPutIo")?.objectForKey("shows") as? [[String:AnyObject]] {
+            if let shows = UserDefaults(suiteName: "group.FetchPutIo")?.object(forKey: "shows") as? [[String:AnyObject]] {
             
-                let s = shows.filter({ $0["id"] as! String == url.pathComponents![1] })[0]
-                let show = TVShow.fromCache(s)
+                let s = shows.filter({ $0["id"] as! String == url.pathComponents[1] })[0]
+                let show = TVShow.fromCache(cache: s)
                 
-                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("showInfo") as! MediaInfoViewController
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "showInfo") as! MediaInfoViewController
                 vc.tvShow = show
                 
-                window?.rootViewController?.presentViewController(vc, animated: true, completion: nil)
+                window?.rootViewController?.present(vc, animated: true, completion: nil)
                 
             }
             
@@ -90,20 +90,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func playVideoFromURL(url: NSURL) {
-        let id = url.pathComponents![1]
+    func playVideoFromURL(_ url: URL) {
+        let id = url.pathComponents[1]
         
-        File.getFileById(id) { file in
+        File.getFileById(id: id) { file in
             
-            let videoController: MediaPlayerViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("mediaPlayer") as! MediaPlayerViewController
+            let videoController: MediaPlayerViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mediaPlayer") as! MediaPlayerViewController
             videoController.file = file
             let urlString = "\(Putio.api)files/\(id)/hls/media.m3u8?oauth_token=\(Putio.accessToken!)&subtitle_key=default"
-            let video = AVPlayerItem(URL: NSURL(string: urlString)!)
+            let video = AVPlayerItem(url: URL(string: urlString)!)
             
             var title: String?
             var overview: String?
             
-            if let movies = NSUserDefaults(suiteName: "group.FetchPutIo")?.objectForKey("movies") as? [[String:String]] {
+            if let movies = UserDefaults(suiteName: "group.FetchPutIo")?.object(forKey: "movies") as? [[String:String]] {
                 let vid = movies.filter({ $0["fileID"] == id })[0]
                 title = vid["title"]
                 overview = vid["overview"]
@@ -111,25 +111,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          
             if let t = title {
                 let title = AVMutableMetadataItem()
-                title.key = AVMetadataCommonKeyTitle
+                title.key = AVMetadataCommonKeyTitle as NSCopying & NSObjectProtocol
                 title.keySpace = AVMetadataKeySpaceCommon
-                title.value = t
-                title.locale = NSLocale.currentLocale()
+                title.value = t as NSCopying & NSObjectProtocol
+                title.locale = NSLocale.current
                 video.externalMetadata.append(title)
             }
             
             if let overview = overview {
                 let description = AVMutableMetadataItem()
-                description.key = AVMetadataCommonKeyDescription
+                description.key = AVMetadataCommonKeyDescription as NSCopying & NSObjectProtocol
                 description.keySpace = AVMetadataKeySpaceCommon
-                description.value = overview
-                description.locale = NSLocale.currentLocale()
+                description.value = overview as NSCopying & NSObjectProtocol
+                description.locale = NSLocale.current
                 video.externalMetadata.append(description)
             }
             
             videoController.player = AVPlayer(playerItem: video)
             
-            self.window?.rootViewController?.presentViewController(videoController, animated: true, completion: nil)
+            self.window?.rootViewController?.present(videoController, animated: true, completion: nil)
             
         }
 

@@ -15,17 +15,17 @@ class FocusableText: UIView {
     override func awakeFromNib() {
         visualEffect.cornerRadius = 10
         visualEffect.alpha = 0
-        layer.shadowColor = UIColor.blackColor().CGColor
-        layer.shadowOffset = CGSizeMake(0, 3)
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 3)
         layer.shadowRadius = 15
         layer.shadowOpacity = 0.4
     }
     
-    override func canBecomeFocused() -> Bool {
+    override var canBecomeFocused : Bool {
         return true
     }
     
-    override func didUpdateFocusInContext(context: UIFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
+    override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
         
         if context.nextFocusedView == self {
             visualEffect.alpha = 1

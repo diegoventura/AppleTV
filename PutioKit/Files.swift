@@ -14,16 +14,21 @@ public class Files {
     
     
     /// Fetch an array of files from a specific URL
-    public class func fetchWithURL(url: String, params: [String:String], sender: UIViewController, callback: ([File]) -> Void) {
+    public class func fetchWithURL(url: String, params: [String:String], sender: UIViewController, callback: @escaping ([File]) -> Void) {
         
-        Putio.networkActivityIndicatorVisible(true)
+        Putio.networkActivityIndicatorVisible(yn: true)
         
-        Alamofire.request(.GET, url, parameters: params)
+        
+        Alamofire.request(url, method: .get, parameters: params)
             .responseJSON { response in
                 
-                Putio.networkActivityIndicatorVisible(false)
+                Putio.networkActivityIndicatorVisible(yn: false)
                 
-                if(response.response?.statusCode >= 400 && response.response?.statusCode < 500) {
+                guard let statusCode = response.response?.statusCode else {
+                    fatalError("[PutioKit] Unable to get a valid status code from Alamofire request. \(#function) [Line: \(#line)]")
+                }
+                
+                if(statusCode >= 400 && statusCode < 500) {
                     Putio.sharedInstance.delegate?.error400Received()
                     return
                 }
@@ -58,16 +63,20 @@ public class Files {
     
     }
     
-    public class func fetchMoviesFromURL(url: String, params: [String:String], sender: UIViewController, callback: ([File]) -> Void) {
+    public class func fetchMoviesFromURL(url: String, params: [String:String], sender: UIViewController, callback: @escaping ([File]) -> Void) {
         
-        Putio.networkActivityIndicatorVisible(true)
+        Putio.networkActivityIndicatorVisible(yn: true)
         
-        Alamofire.request(.GET, url, parameters: params)
+        Alamofire.request(url, method: .get, parameters: params)
             .responseJSON { response in
                 
-                Putio.networkActivityIndicatorVisible(false)
+                Putio.networkActivityIndicatorVisible(yn: false)
                 
-                if(response.response?.statusCode >= 400 && response.response?.statusCode < 500) {
+                guard let statusCode = response.response?.statusCode else {
+                    fatalError("[PutioKit] Unable to get a valid status code from Alamofire request. \(#function) [Line: \(#line)]")
+                }
+                
+                if(statusCode >= 400 && statusCode < 500) {
                     Putio.sharedInstance.delegate?.error400Received()
                     return
                 }
@@ -110,14 +119,14 @@ public class Files {
     
     
     /// Fetch an array of folders from a specific URL
-    public class func fetchFoldersFromURL(url: String, params: [String:String], callback: ([File]) -> Void) {
+    public class func fetchFoldersFromURL(url: String, params: [String:String], callback: @escaping ([File]) -> Void) {
         
-        Putio.networkActivityIndicatorVisible(true)
+        Putio.networkActivityIndicatorVisible(yn: true)
         
-        Alamofire.request(.GET, url, parameters: params)
+        Alamofire.request(url, method: .get, parameters: params)
             .responseJSON { response in
                 
-                Putio.networkActivityIndicatorVisible(false)
+                Putio.networkActivityIndicatorVisible(yn: false)
                 
                 var files: [File] = []
                 
@@ -152,14 +161,14 @@ public class Files {
     }
     
     /// Fetch an array of folders from a specific URL but exclude a file
-    public class func fetchFoldersWithExclusionFromURL(url: String, params: [String:String], exclude: File?, callback: ([File]) -> Void) {
+    public class func fetchFoldersWithExclusionFromURL(url: String, params: [String:String], exclude: File?, callback: @escaping ([File]) -> Void) {
         
-        Putio.networkActivityIndicatorVisible(true)
+        Putio.networkActivityIndicatorVisible(yn: true)
         
-        Alamofire.request(.GET, url, parameters: params)
+        Alamofire.request(url, method: .get, parameters: params)
             .responseJSON { response in
                 
-                Putio.networkActivityIndicatorVisible(false)
+                Putio.networkActivityIndicatorVisible(yn: false)
                 
                 var files: [File] = []
                 

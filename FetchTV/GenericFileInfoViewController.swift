@@ -25,8 +25,8 @@ class GenericFileInfoViewController: UIViewController {
     @IBOutlet weak var imageContainer: UIView!
     
     override func viewDidLoad() {
-        imageContainer.layer.shadowColor = UIColor.blackColor().CGColor
-        imageContainer.layer.shadowOffset = CGSizeMake(0, 2)
+        imageContainer.layer.shadowColor = UIColor.black.cgColor
+        imageContainer.layer.shadowOffset = CGSize(width: 0, height: 2)
         imageContainer.layer.shadowRadius = 5
         imageContainer.layer.shadowOpacity = 0.2
     }

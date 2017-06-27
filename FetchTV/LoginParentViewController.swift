@@ -10,7 +10,7 @@ import UIKit
 
 class LoginParentViewController: UIViewController, LoginListenerDelegate {
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         LoginListener.sharedInstance.delegate = self
@@ -20,7 +20,7 @@ class LoginParentViewController: UIViewController, LoginListenerDelegate {
     }
     
     func loggedInOkay() {
-        performSegueWithIdentifier("showMain", sender: self)
+        performSegue(withIdentifier: "showMain", sender: self)
     }
     
 //    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

@@ -33,9 +33,9 @@ public class Movie {
     /// Title to sort alphabetically witout "The"
     public var sortableTitle: String? {
         get {
-            if let range = title?.rangeOfString("The ") {
-                if range.startIndex == title?.startIndex {
-                    return title?.stringByReplacingCharactersInRange(range, withString: "")
+            if let range = title?.range(of: "The ") {
+                if range.lowerBound == title?.startIndex {
+                    return title?.replacingCharacters(in: range, with: "")
                 }
             }
             return title
@@ -58,22 +58,22 @@ public class Movie {
     public var files: [File] = []
     
     /// Load the movie poster
-    public func loadPoster(callback: (UIImage) -> Void) {
+    public func loadPoster(callback: @escaping (UIImage) -> Void) {
         
-        let documents = NSURL(string: NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0])
+        let documents = NSURL(string: NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0])
         
-        let lcrPath = documents!.URLByAppendingPathComponent("\(id!).lcr")
-        let pngPath = documents!.URLByAppendingPathComponent("\(id!).png")
-        let fm = NSFileManager.defaultManager()
+        let lcrPath = documents!.appendingPathComponent("\(id!).lcr")
+        let pngPath = documents!.appendingPathComponent("\(id!).png")
+        let fm = FileManager.default
         var isDir: ObjCBool = false
         
-        if fm.fileExistsAtPath(lcrPath!.absoluteString!, isDirectory: &isDir) {
-            poster = UIImage(contentsOfFile: lcrPath!.absoluteString!)
+        if fm.fileExists(atPath: lcrPath!.absoluteString, isDirectory: &isDir) {
+            poster = UIImage(contentsOfFile: lcrPath!.absoluteString)
             if self.poster != nil {
                 callback(self.poster!)
             }
-        } else if fm.fileExistsAtPath(pngPath!.absoluteString!, isDirectory: &isDir) {
-            poster = UIImage(contentsOfFile: pngPath!.absoluteString!)
+        } else if fm.fileExists(atPath: pngPath!.absoluteString, isDirectory: &isDir) {
+            poster = UIImage(contentsOfFile: pngPath!.absoluteString)
             if self.poster != nil {
                 callback(self.poster!)
             }
@@ -84,14 +84,14 @@ public class Movie {
                 params["year"] = year
             }
             
-            Alamofire.request(.GET, "http://lsrdb.com/search", parameters: params)
+            Alamofire.request("http://lsrdb.com/search", method: .get, parameters: params)
                 .responseData { response in
                     
                     if response.result.isSuccess && response.response!.statusCode == 200 {
                         
                         if let image = response.result.value {
-                            image.writeToFile(lcrPath!.absoluteString!, atomically: true)
-                            self.poster = UIImage(contentsOfFile: lcrPath!.absoluteString!)
+                            try! image.write(to: URL(fileURLWithPath: lcrPath!.absoluteString), options: .atomic)
+                            self.poster = UIImage(contentsOfFile: lcrPath!.absoluteString)
                             if self.poster != nil {
                                 callback(self.poster!)
                             }
@@ -99,10 +99,10 @@ public class Movie {
                         
                     } else if let url = self.posterURL {
                         
-                        Alamofire.request(.GET, "https://image.tmdb.org/t/p/w500\(url)")
+                        Alamofire.request("https://image.tmdb.org/t/p/w500\(url)", method: .get)
                             .responseImage { response in
                                 if let image = response.result.value {
-                                    UIImagePNGRepresentation(image)?.writeToFile(pngPath!.absoluteString!, atomically: true)
+                                    try! UIImagePNGRepresentation(image)?.write(to: URL(fileURLWithPath: pngPath!.absoluteString), options: .atomic)
                                     self.poster = image
                                     if self.poster != nil {
                                         callback(self.poster!)
