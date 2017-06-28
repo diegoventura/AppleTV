@@ -16,7 +16,7 @@ class TMDB {
     static let api = "http://api.themoviedb.org/3/"
     
     /// The API Key
-    static let key = "effc766d4c2565abd1e93fb7f5f7c628"
+    static let key = "f059136e3f691fcc04266cf19db98886"
     
     /// The sharedInstance
     static let sharedInstance = TMDB()
