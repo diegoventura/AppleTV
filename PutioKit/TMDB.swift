@@ -46,9 +46,9 @@ class TMDB {
             params["first_air_date_year"] = year!
         }
         
-        let delay = Double(TMDB.sharedInstance.requests / 4) * Double(NSEC_PER_SEC)
+        let delay = DispatchTime.now() + Double(Int64(Double(TMDB.sharedInstance.requests / 4) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+        DispatchQueue.main.asyncAfter(deadline: delay) {
             TMDB.sharedInstance.searchWithParams(params: params, type: "tv") { response in
                 callback(response)
             }
@@ -74,9 +74,9 @@ class TMDB {
             params["year"] = year!
         }
         
-        let delay = Double(TMDB.sharedInstance.requests / 4) * Double(NSEC_PER_SEC)
+        let delay = DispatchTime.now() + Double(Int64(Double(TMDB.sharedInstance.requests / 4) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+        DispatchQueue.main.asyncAfter(deadline: delay) {
             TMDB.sharedInstance.searchWithParams(params: params, type: "movie") { response in
                 callback(response)
             }
@@ -164,9 +164,9 @@ class TMDB {
             "api_key" : TMDB.key
         ]
         
-        let delay = Double(TMDB.sharedInstance.requests / 4) * Double(NSEC_PER_SEC)
+        let delay = DispatchTime.now() + Double(Int64(Double(TMDB.sharedInstance.requests / 4) * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+        DispatchQueue.main.asyncAfter(deadline: delay) {
             Alamofire.request("\(TMDB.api)tv/\(showId)/season/\(season)/episode/\(episode)", method: .get, parameters: params)
                 .responseJSON { response in
                     
